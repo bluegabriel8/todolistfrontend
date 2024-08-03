@@ -7,11 +7,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 const Todo = ({task, toggleComplete, deleteTodo, editTodo}) => {
   return (
     <div className='todo'>
+        
+        <button onClick={() => editTodo(task.id)} className='btn btn-primary'>
+            <FontAwesomeIcon icon={faPenToSquare} />    
+        </button>
+        <button onClick={() => deleteTodo(task.id)} className='btn btn-primary'>
+            <FontAwesomeIcon icon={faTrash} />
+        </button>
+
         <p onClick={()=> toggleComplete(task.id)} className={task.completed ? "completed" : ''} text='task'>{task.task}</p>
-        <div>
-            <FontAwesomeIcon icon={faPenToSquare} onClick={() => editTodo(task.id)}/>
-            <FontAwesomeIcon icon={faTrash} onClick={() => deleteTodo(task.id)}/>
-        </div>
+        
     </div>
   )
 }
