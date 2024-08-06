@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import TodoForm from './TodoForm'
 import { v4 as uuidv4 } from 'uuid'
 import Todo from './Todo'
@@ -6,6 +6,7 @@ import EditTodoForm from './EditTodoForm'
 import { useAuth0 } from "@auth0/auth0-react";
 import LogoutButton from './LogoutButton'
 import LoginButton from './LoginButton'
+import axios from 'axios';
 uuidv4()
 
 const TodoWrapper = () => {
@@ -15,8 +16,63 @@ const TodoWrapper = () => {
     const {loginWithRedirect, isAuthenticated} = useAuth0()  
 
 
-    const addTodo = (todo) => {
-        setTodos([...todos, {id: uuidv4(), task: todo, completed: false, isEditing: false}])
+    useEffect(() => {
+        fetchTodos();
+    }, []);
+    
+
+    const fetchTodos = async () => {
+        try {
+            const response = await axios.get('http://127.0.0.1:5000/api/tasks');
+            
+            const data = response.data.tasks;
+            console.log(data);
+            setTodos(
+                data.map((todo) => ({id: todo.index, 
+                    task: todo.task, 
+                    completed: todo.completed, isEditing: false
+            })));
+            
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    // const createTodo = async (todo) => {
+    //     try {
+    //         const response = await axios.post('https://api.example.com/todos', todo);
+    //         setTodos([...todos, response.data]);
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // };
+
+    // const updateTodo = async (id, updatedTodo) => {
+    //     try {
+    //         const response = await axios.put(`https://api.example.com/todos/${id}`, updatedTodo);
+    //         setTodos(
+    //             todos.map((todo) => (todo.id === id ? response.data : todo))
+    //         );
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // };
+
+    // const deleteTodo = async (id) => {
+    //     try {
+    //         await axios.delete(`https://api.example.com/todos/${id}`);
+    //         setTodos(todos.filter((todo) => todo.id !== id));
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // };
+
+    const addTodo = async (todo) => {
+        const index = uuidv4();
+        const newTodo = { task: todo, index: index, completed: false }
+        await axios.post('http://127.0.0.1:5000/api/task', newTodo);
+        setTodos([...todos, {id: index, task: todo, completed: false, isEditing: false}])
         console.log(todos)
     }
 
@@ -38,7 +94,9 @@ const TodoWrapper = () => {
         )
     }
 
-    const editTask = (task, id) => {
+    const editTask = async (task, id) => {
+        const newTodo = {task: task, index: id, completed: false}
+        await axios.put('http://127.0.0.1:5000/api/task', newTodo);
         setTodos(
             todos.map(todo => todo.id === id ? {...todo, task, isEditing: !todo.isEditing} : todo)
         )
