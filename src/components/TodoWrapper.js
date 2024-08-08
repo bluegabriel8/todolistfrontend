@@ -106,8 +106,8 @@ const TodoWrapper = () => {
 
     const editTask = async (task, id) => {
         const newTodo = {task: task, index: id, completed: false, email: user.email}
-        // await axios.put('http://127.0.0.1:5000/api/task', newTodo);
-        await axios.put('https://todolistbackend-851291dbcba8.herokuapp.com/api/task', newTodo);
+        await axios.put('http://127.0.0.1:5000/api/task', newTodo);
+        // await axios.put('https://todolistbackend-851291dbcba8.herokuapp.com/api/task', newTodo);
         
         setTodos(
             todos.map(todo => todo.id === id ? {...todo, task, isEditing: !todo.isEditing} : todo)
