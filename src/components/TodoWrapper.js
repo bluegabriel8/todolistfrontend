@@ -7,24 +7,31 @@ import { useAuth0 } from "@auth0/auth0-react";
 import LogoutButton from './LogoutButton'
 import LoginButton from './LoginButton'
 import axios from 'axios';
+
 uuidv4()
 
 const TodoWrapper = () => {
     const [todos, setTodos] = useState([])
     
     const {isLoading, error} = useAuth0();
-    const {loginWithRedirect, isAuthenticated} = useAuth0()  
+    const { user, loginWithRedirect, isAuthenticated } = useAuth0();
 
-
-    useEffect(() => {
-        fetchTodos();
-    }, []);
+  
+        useEffect(() => {
+            if (isAuthenticated) {
+            fetchTodos();
+            }
+        }, [isAuthenticated]);
     
 
     const fetchTodos = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:5000/api/tasks');
             
+            
+            const userEmail = user.email
+
+            const response = await axios.get(`http://127.0.0.1:5000/api/tasks?email=${userEmail}`);
+            // const response = await axios.get(`https://todolistbackend-851291dbcba8.herokuapp.com/api/tasks?email=${userEmail}`);
             const data = response.data.tasks;
             console.log(data);
             setTodos(
@@ -38,6 +45,7 @@ const TodoWrapper = () => {
             console.error(error);
         }
     };
+    
 
     // const createTodo = async (todo) => {
     //     try {
@@ -70,8 +78,10 @@ const TodoWrapper = () => {
 
     const addTodo = async (todo) => {
         const index = uuidv4();
-        const newTodo = { task: todo, index: index, completed: false }
+        const newTodo = { task: todo, index: index, completed: false, email: user.email}
+        console.log(newTodo)
         await axios.post('http://127.0.0.1:5000/api/task', newTodo);
+        // await axios.post('https://todolistbackend-851291dbcba8.herokuapp.com/api/task', newTodo);
         setTodos([...todos, {id: index, task: todo, completed: false, isEditing: false}])
         console.log(todos)
     }
@@ -95,8 +105,10 @@ const TodoWrapper = () => {
     }
 
     const editTask = async (task, id) => {
-        const newTodo = {task: task, index: id, completed: false}
-        await axios.put('http://127.0.0.1:5000/api/task', newTodo);
+        const newTodo = {task: task, index: id, completed: false, email: user.email}
+        // await axios.put('http://127.0.0.1:5000/api/task', newTodo);
+        await axios.put('https://todolistbackend-851291dbcba8.herokuapp.com/api/task', newTodo);
+        
         setTodos(
             todos.map(todo => todo.id === id ? {...todo, task, isEditing: !todo.isEditing} : todo)
         )
@@ -128,6 +140,9 @@ const TodoWrapper = () => {
                     } 
                 })}
             </>
+            )}
+            {!isAuthenticated && (
+                    <button onClick={() => loginWithRedirect()}>Sign Up</button>
             )}
             </>
         )}
