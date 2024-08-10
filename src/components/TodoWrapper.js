@@ -70,7 +70,7 @@ const TodoWrapper = () => {
         const newTodo = { task: todo, index: index, completed: false, email: user.email}
         console.log(newTodo)
         // await axios.post('https://todolistbackend-851291dbcba8.herokuapp.com/api/task', newTodo);
-        await axios.post('https://localhost:5000/api/task', newTodo);
+        await axios.post('http://127.0.0.1:5000/api/task', newTodo);
         setTodos([...todos, {id: index, task: todo, completed: false, isEditing: false}])
         console.log(todos)
     }
@@ -83,7 +83,7 @@ const TodoWrapper = () => {
         
         const newTodo = { index: id, email: user.email};
         // await axios.put('https://todolistbackend-851291dbcba8.herokuapp.com/api/toggle', newTodo);
-        await axios.put('https://localhost:5000/api/task/api/toggle', newTodo)
+        await axios.put('http://127.0.0.1:5000/api/task/api/toggle', newTodo)
         console.log(todos)
         setTodos(
             todos.map(todo => 
@@ -110,7 +110,7 @@ const TodoWrapper = () => {
             //     }
             //   });
 
-              await axios.delete('https://localhost:5000/api/task', {
+              await axios.delete('http://127.0.0.1:5000/api/task', {
                 params: {
                   index: id,
                   email: user.email
@@ -147,7 +147,7 @@ const TodoWrapper = () => {
     const editTask = async (task, id) => {
         const newTodo = {task: task, index: id, completed: task.completed, email: user.email}
         // await axios.put('https://todolistbackend-851291dbcba8.herokuapp.com/api/task', newTodo);
-        await axios.put('https://localhost:5000/api/task', newTodo);
+        await axios.put('http://127.0.0.1:5000/api/task', newTodo);
     
         setTodos(
             todos.map(todo => todo.id === id ? {...todo, task, isEditing: !todo.isEditing} : todo)
