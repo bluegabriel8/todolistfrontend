@@ -41,7 +41,7 @@ const TodoWrapper = () => {
             const userEmail = user.email
             console.log(userEmail)
             // const response = await axios.get(`https://todolistbackend-851291dbcba8.herokuapp.com/api/tasks?email=${userEmail}`);
-            const response = await axios.get(`https://localhost:5000/api/tasks?email=${userEmail}`);
+            const response = await axios.get(`http://127.0.0.1:5000/api/tasks?email=${userEmail}`);
             const data = response.data.tasks;
             console.log(data)
 
