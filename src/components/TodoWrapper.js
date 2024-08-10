@@ -69,8 +69,8 @@ const TodoWrapper = () => {
         const index = uuidv4();
         const newTodo = { task: todo, index: index, completed: false, email: user.email}
         console.log(newTodo)
-        // await axios.post('https://todolistbackend-851291dbcba8.herokuapp.com/api/task', newTodo);
-        await axios.post('http://127.0.0.1:5000/api/task', newTodo);
+        await axios.post('https://todolistbackend-851291dbcba8.herokuapp.com/api/task', newTodo);
+        // await axios.post('http://127.0.0.1:5000/api/task', newTodo);
         setTodos([...todos, {id: index, task: todo, completed: false, isEditing: false}])
         console.log(todos)
     }
