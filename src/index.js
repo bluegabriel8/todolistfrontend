@@ -16,7 +16,7 @@ root.render(
     <Auth0Provider
       domain={domain}
       clientId={clientId}
-      redirectUri={"https://bluegabriel8.github.io"}
+      redirectUri={"https://bluegabriel8.github.io/todolistfrontend/"}
       >
       <App />
     </Auth0Provider>
