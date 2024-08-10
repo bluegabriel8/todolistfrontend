@@ -14,7 +14,6 @@ const Todo = ({task, toggleComplete, deleteTodo, editTodo}) => {
         <button onClick={() => deleteTodo(task.id)} className='btn btn-secondary'>
             <FontAwesomeIcon icon={faTrash} />
         </button>
-
         <p onClick={()=> toggleComplete(task.id)} className={task.completed ? "completed" : ''} text='task'>{task.task}</p>
         
     </div>
