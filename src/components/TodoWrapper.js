@@ -40,8 +40,8 @@ const TodoWrapper = () => {
            
             const userEmail = user.email
             console.log(userEmail)
-            // const response = await axios.get(`https://todolistbackend-851291dbcba8.herokuapp.com/api/tasks?email=${userEmail}`);
-            const response = await axios.get(`http://127.0.0.1:5000/api/tasks?email=${userEmail}`);
+            const response = await axios.get(`https://todolistbackend-851291dbcba8.herokuapp.com/api/tasks?email=${userEmail}`);
+            // const response = await axios.get(`http://127.0.0.1:5000/api/tasks?email=${userEmail}`);
             const data = response.data.tasks;
             console.log(data)
 
@@ -82,8 +82,8 @@ const TodoWrapper = () => {
     const toggleComplete = async (id) => {
         
         const newTodo = { index: id, email: user.email};
-        // await axios.put('https://todolistbackend-851291dbcba8.herokuapp.com/api/toggle', newTodo);
-        await axios.put('http://127.0.0.1:5000/api/task/api/toggle', newTodo)
+        await axios.put('https://todolistbackend-851291dbcba8.herokuapp.com/api/toggle', newTodo);
+        // await axios.put('http://127.0.0.1:5000/api/task/api/toggle', newTodo)
         console.log(todos)
         setTodos(
             todos.map(todo => 
@@ -103,19 +103,19 @@ const TodoWrapper = () => {
     //If there is an error, it is logged to the console
     const deleteTodo = async (id) => {
         try {
-            // await axios.delete('https://todolistbackend-851291dbcba8.herokuapp.com/api/task', {
-            //     params: {
-            //       index: id,
-            //       email: user.email
-            //     }
-            //   });
-
-              await axios.delete('http://127.0.0.1:5000/api/task', {
+            await axios.delete('https://todolistbackend-851291dbcba8.herokuapp.com/api/task', {
                 params: {
                   index: id,
                   email: user.email
                 }
               });
+
+            //   await axios.delete('http://127.0.0.1:5000/api/task', {
+            //     params: {
+            //       index: id,
+            //       email: user.email
+            //     }
+            //   });
             setTodos(todos.filter(todo => todo.id !== id))
         } catch (error){
             console.error('Error deleting task' + error)
@@ -145,9 +145,10 @@ const TodoWrapper = () => {
     //If the id of the todo matches the id passed as a parameter, the task property is updated
     //The isEditing property is then toggled
     const editTask = async (task, id) => {
-        const newTodo = {task: task, index: id, completed: task.completed, email: user.email}
-        // await axios.put('https://todolistbackend-851291dbcba8.herokuapp.com/api/task', newTodo);
-        await axios.put('http://127.0.0.1:5000/api/task', newTodo);
+        console.log()
+        const newTodo = {task: task, index: id, email: user.email}
+        await axios.put('https://todolistbackend-851291dbcba8.herokuapp.com/api/task', newTodo);
+        // await axios.put('http://127.0.0.1:5000/api/task', newTodo);
         setTodos(
             todos.map(todo => todo.id === id ? {...todo, task, isEditing: !todo.isEditing} : todo)
         )
