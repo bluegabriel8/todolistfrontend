@@ -39,7 +39,7 @@ const TodoWrapper = () => {
         try {
            
             const userEmail = user.email
-            const response = await axios.get(`http://127.0.0.1:5000/api/tasks?email=${userEmail}`);
+            const response = await axios.get(`https://todolistbackend-851291dbcba8.herokuapp.com/api/tasks?email=${userEmail}`);
             const data = response.data.tasks;
             console.log(data)
 
@@ -67,7 +67,7 @@ const TodoWrapper = () => {
         const index = uuidv4();
         const newTodo = { task: todo, index: index, completed: false, email: user.email}
         console.log(newTodo)
-        await axios.post('http://127.0.0.1:5000/api/task', newTodo);
+        await axios.post('https://todolistbackend-851291dbcba8.herokuapp.com/api/task', newTodo);
         setTodos([...todos, {id: index, task: todo, completed: false, isEditing: false}])
         console.log(todos)
     }
@@ -79,7 +79,7 @@ const TodoWrapper = () => {
     const toggleComplete = async (id) => {
         
         const newTodo = { index: id, email: user.email};
-        await axios.put('http://127.0.0.1:5000/api/toggle', newTodo);
+        await axios.put('https://todolistbackend-851291dbcba8.herokuapp.com/api/toggle', newTodo);
         console.log(todos)
         setTodos(
             todos.map(todo => 
@@ -99,7 +99,7 @@ const TodoWrapper = () => {
     //If there is an error, it is logged to the console
     const deleteTodo = async (id) => {
         try {
-            await axios.delete('http://127.0.0.1:5000/api/task', {
+            await axios.delete('https://todolistbackend-851291dbcba8.herokuapp.com/api/task', {
                 params: {
                   index: id,
                   email: user.email
@@ -135,7 +135,7 @@ const TodoWrapper = () => {
     //The isEditing property is then toggled
     const editTask = async (task, id) => {
         const newTodo = {task: task, index: id, completed: task.completed, email: user.email}
-        await axios.put('http://127.0.0.1:5000/api/task', newTodo);
+        await axios.put('https://todolistbackend-851291dbcba8.herokuapp.com/api/task', newTodo);
     
         setTodos(
             todos.map(todo => todo.id === id ? {...todo, task, isEditing: !todo.isEditing} : todo)
